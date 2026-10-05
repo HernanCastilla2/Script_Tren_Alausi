@@ -2,7 +2,6 @@ import requests
 import re
 import sys
 import datetime
-from zoneinfo import ZoneInfo
 
 TOPIC = "tren_alausi_hernan_2026"
 TARGET_DATES = ["2026-10-15", "2026-10-16", "2026-10-17", "2026-10-18"]
@@ -55,7 +54,7 @@ def main():
         fechas_encontradas = [fecha for fecha in TARGET_DATES if fecha in fechas]
         
         if fechas_encontradas:
-            tz = ZoneInfo('America/Bogota')
+            tz = datetime.timezone(datetime.timedelta(hours=-5))
             now = datetime.datetime.now(tz)
             timestamp = now.strftime("%Y-%m-%d %H:%M:%S UTC-5")
             
