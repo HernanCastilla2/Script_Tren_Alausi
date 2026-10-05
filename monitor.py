@@ -5,7 +5,7 @@ import datetime
 from zoneinfo import ZoneInfo
 
 TOPIC = "tren_alausi_hernan_2026"
-TARGET_DATE = "2026-10-15"
+TARGET_DATES = ["2026-10-15", "2026-10-16", "2026-10-17", "2026-10-18"]
 EVENT_ID = "063823ac-91ad-439a-b352-53e48869dd0b"
 SUBEVENT_ID = "4b41d460-67f4-4408-9ecd-f0e752b61ba5"
 
@@ -52,18 +52,21 @@ def main():
         
         fechas = data.get('data', {}).get('fechas', [])
         
-        if TARGET_DATE in fechas:
+        fechas_encontradas = [fecha for fecha in TARGET_DATES if fecha in fechas]
+        
+        if fechas_encontradas:
             tz = ZoneInfo('America/Bogota')
             now = datetime.datetime.now(tz)
             timestamp = now.strftime("%Y-%m-%d %H:%M:%S UTC-5")
             
-            message = f"🚨 ¡Tiquetes del Tren habilitados para el 15 de octubre! Entra a comprar.\n\nDetectado a las: {timestamp}"
+            fechas_str = ", ".join(fechas_encontradas)
+            message = f"🚨 ¡Tiquetes habilitados para: {fechas_str}! Entra a comprar.\n\nDetectado a las: {timestamp}"
             
             ntfy_url = f"https://ntfy.sh/{TOPIC}"
             requests.post(ntfy_url, data=message.encode('utf-8'))
-            print("¡Disponibilidad detectada! Notificación enviada.")
+            print(f"¡Disponibilidad detectada para {fechas_str}! Notificación enviada.")
         else:
-            print(f"Sin disponibilidad para {TARGET_DATE} aún. Fechas encontradas: {fechas}")
+            print(f"Sin disponibilidad para los días buscados ({TARGET_DATES}) aún. Fechas encontradas: {fechas}")
             
     except Exception as e:
         print(f"Error durante el monitoreo: {e}", file=sys.stderr)
