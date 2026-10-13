@@ -5,6 +5,9 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   check-availability:
     runs-on: ubuntu-latest
@@ -16,7 +19,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11' # zoneinfo está disponible desde 3.9
+          python-version: '3.11'
 
       - name: Instalar dependencias
         run: |
@@ -25,3 +28,14 @@ jobs:
 
       - name: Ejecutar script de monitoreo
         run: python monitor.py
+
+      - name: Guardar estado si hubo nuevas fechas
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain known_dates.json historial_aperturas.txt)" ]; then
+            git add known_dates.json historial_aperturas.txt
+            git commit -m "Auto: Registrar nuevas fechas detectadas [skip ci]"
+            git pull --rebase origin main || true
+            git push
+          fi

@@ -1,0 +1,4 @@
+# Historial de aperturas de fechas en TicketExito (Tren Nariz del Diablo)
+# Formato: [Fecha y hora de deteccion UTC-5] Fechas habilitadas
+[2026-10-04 20:30:00 UTC-5] Habilitadas: 2026-10-08, 2026-10-09, 2026-10-10, 2026-10-11
+[2026-10-13 16:20:00 UTC-5] Habilitadas: 2026-10-15, 2026-10-16, 2026-10-17, 2026-10-18
