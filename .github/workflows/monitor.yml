@@ -2,7 +2,8 @@ name: Monitoreo Tren de Alausi
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    # Usar minutos irregulares reduce fuertemente la congestión y demoras en GitHub Actions
+    - cron: '4,19,34,49 * * * *'
   workflow_dispatch:
 
 permissions:

@@ -92,7 +92,13 @@ def main():
             )
             
             ntfy_url = f"https://ntfy.sh/{TOPIC}"
-            requests.post(ntfy_url, data=message.encode('utf-8'))
+            headers_ntfy = {
+                "Title": "Tren Nariz del Diablo: Nuevas Fechas",
+                "Priority": "urgent",
+                "Tags": "rotating_light,train",
+                "Click": "https://app.ticketexito.com/evento/trenalausi/actividad/tren-turistico"
+            }
+            requests.post(ntfy_url, data=message.encode('utf-8'), headers=headers_ntfy)
             print(f"¡Nuevas fechas detectadas ({fechas_str})! Notificación enviada a ntfy.")
             
             # Actualizar estado y registrar en el historial
